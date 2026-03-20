@@ -2,14 +2,22 @@ import runpod
 import whisperx
 import torch
 import gc
+import os
 
 def handler(event):
     """
     WhisperX Handler mit Speaker Diarization (pyannote 3.1)
     """
+
     try:
         input_data = event['input']
         
+        # Get current LD_LIBRARY_PATH
+        original = os.environ.get("LD_LIBRARY_PATH", "")
+
+        cudnn_path = "/usr/local/lib/python3.10/dist-packages/nvidia/cudnn/lib/"
+        os.environ['LD_LIBRARY_PATH'] = original + ":" + cudnn_path
+
         # Parameter
         audio_file = input_data.get('audio_file')
         language = input_data.get('language')
