@@ -3,6 +3,7 @@ import whisperx
 import torch
 import gc
 import os
+from whisperx.diarize import DiarizationPipeline
 
 def handler(event):
     """
@@ -28,6 +29,8 @@ def handler(event):
         
         device = "cuda" if torch.cuda.is_available() else "cpu"
         compute_type = "float16" if device == "cuda" else "int8"
+
+        print(device)
         
         # 1. Audio laden
         audio = whisperx.load_audio(audio_file)
@@ -80,7 +83,7 @@ def handler(event):
                 return {"error": "huggingface_access_token required for diarization"}
             
             # Diarization Pipeline (pyannote 3.1)
-            diarize_model = whisperx.DiarizationPipeline(
+            diarize_model = DiarizationPipeline(
                 use_auth_token=hf_token,
                 device=device
             )
