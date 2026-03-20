@@ -84,7 +84,7 @@ def handler(event):
             
             # Diarization Pipeline (pyannote 3.1)
             diarize_model = DiarizationPipeline(
-                use_auth_token=hf_token,
+                token=hf_token,
                 device=device
             )
             
