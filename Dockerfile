@@ -5,11 +5,9 @@ WORKDIR /app
 # System Dependencies
 RUN apt-get update && apt-get install -y ffmpeg git
 
-# Python Dependencies mit aktueller pyannote
-RUN pip install --no-cache-dir \
-    whisperx \
-    pyannote.audio \
-    runpod
+COPY requirements.txt .
+
+RUN pip install --no-cache-dir -r requirements.txt
 
 # Handler kopieren
 COPY handler.py /app/
